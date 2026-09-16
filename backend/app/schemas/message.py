@@ -1,7 +1,6 @@
 from datetime import datetime
-from uuid import UUID
 from pydantic import BaseModel, ConfigDict, Field
-from typing import Optional, Any
+from typing import Optional
 
 
 class MessageCreate(BaseModel):
@@ -12,8 +11,8 @@ class MessageCreate(BaseModel):
 class MessageOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: UUID
-    conversation_id: UUID
+    id: str
+    conversation_id: str
     sender_type: str
     content: str
     processing_status: str

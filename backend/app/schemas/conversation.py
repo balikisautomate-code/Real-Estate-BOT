@@ -1,19 +1,18 @@
 from datetime import datetime
-from uuid import UUID
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 
 class ConversationCreate(BaseModel):
-    lead_id: Optional[UUID] = None
+    lead_id: Optional[str] = None
     channel: str = "WEB"
 
 
 class ConversationOut(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: UUID
-    lead_id: UUID
+    id: str
+    lead_id: str
     channel: str
     status: str
     started_at: datetime

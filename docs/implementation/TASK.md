@@ -10,8 +10,8 @@
 ## 1. Project Status
 
 **Overall Status:** 🟡 Implementation In Progress  
-**Current Phase:** Backend + Frontend MVP  
-**MVP Status:** Core code written — ready for local setup & n8n wiring
+**Current Phase:** Backend + Frontend MVP (MySQL)  
+**MVP Status:** Core code written — configured for local MySQL
 
 ### Status Legend
 
@@ -30,106 +30,65 @@ DOCUMENTATION          🟢
      ↓
 PROJECT SETUP          🟢
      ↓
-DATABASE MODELS        🟢
+DATABASE (MySQL)       🟢
      ↓
 BACKEND API            🟢 (core)
      ↓
 FRONTEND               🟢 (chat + dashboard shell)
      ↓
-N8N AUTOMATION         🟡 (you are testing)
+N8N AUTOMATION         🟡
      ↓
 AI PROCESSING
      ↓
-LEAD QUALIFICATION     🟢 (deterministic service)
+LEAD QUALIFICATION     🟢
      ↓
 SALES DASHBOARD        🟡
      ↓
 TESTING
      ↓
-VPS DEPLOYMENT
+VPS DEPLOYMENT (Docker later)
      ↓
 MVP COMPLETE
 ```
 
 ---
 
-# 4. Project Foundation
+# Database
 
-## Repository
-
-- [x] Create project repository
-- [x] Create initial branch structure (main)
-- [x] Create `.gitignore`
-- [x] Create `.env.example`
-- [x] Create README
-- [x] Create documentation folders (`docs/`)
-- [x] Create frontend directory
-- [x] Create backend directory
-- [x] Create n8n directory
-- [x] Create database directory
-- [x] Create tests directory
-
-## Development Environment
-
-- [ ] Install Node.js
-- [ ] Install Python
-- [ ] Create Python virtual environment
-- [ ] Install backend dependencies
-- [ ] Install frontend dependencies
-- [ ] Install/configure PostgreSQL
-- [ ] Configure n8n
-- [ ] Configure environment variables
-- [ ] Verify all services locally
+- [x] Switched to **MySQL** for local development
+- [x] Models adapted (CHAR(36) UUIDs, JSON)
+- [x] PyMySQL driver
+- [ ] Alembic migrations (optional for now)
 
 ---
 
-# 5. Database
+# Backend
 
-- [x] SQLAlchemy models (Lead, Conversation, Message, LeadScore, Activity)
-- [ ] Alembic migrations
-- [ ] Seed data
-
----
-
-# 6. FastAPI Backend
-
-- [x] FastAPI application + CORS
-- [x] Health endpoint (with DB check)
-- [x] Lead APIs (create, list, get, update, qualify)
-- [x] Conversation APIs (create, get)
-- [x] Message APIs (create, list)
-- [x] Deterministic qualification service
-- [x] n8n webhook trigger helper
-- [ ] Authentication / JWT
-- [ ] Follow-up APIs
+- [x] FastAPI + CORS
+- [x] Health endpoint
+- [x] Lead / Conversation / Message APIs
+- [x] Qualification service
+- [x] n8n webhook trigger
 
 ---
 
-# 7. React Frontend
+# Frontend
 
-- [x] Vite + React + TypeScript setup
-- [x] Modern orange/yellow design system
-- [x] Customer chat interface
-- [x] Message list + input + typing indicator
-- [x] Sales dashboard shell (stats + lead table)
-- [x] API client service
-- [ ] Lead detail page
-- [ ] Follow-up management UI
+- [x] Vite + React + TypeScript
+- [x] Orange / yellow modern UI
+- [x] Customer chat
+- [x] Sales dashboard shell
 
 ---
 
-# 15. Current Priority
+# Current Priority (you on device)
 
-## 🔥 Next Tasks (for you on device)
-
-1. [x] Backend core implementation
-2. [x] Frontend chat + dashboard (orange/yellow)
-3. [ ] Start Postgres + run backend
-4. [ ] Create tables (SQLAlchemy create_all or Alembic)
-5. [ ] Start frontend (`npm run dev`)
-6. [ ] Wire n8n webhook `PRH-LEAD-PROCESS-MESSAGE`
-7. [ ] Test full message → n8n → response flow
+1. Create MySQL database `real_estate_leads`
+2. Set `DATABASE_URL` in `.env`
+3. Install backend deps + create tables
+4. Run backend + frontend
+5. Wire n8n webhook and test
 
 ---
 
-*This file is the living task tracker. Keep it updated as work progresses.*
+*Living task tracker — keep updated as work progresses.*

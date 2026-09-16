@@ -1,7 +1,5 @@
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from sqlalchemy import func
 
 from app.db.session import get_db
 from app.models.lead import Lead
@@ -19,7 +17,6 @@ def create_lead(payload: LeadCreate, db: Session = Depends(get_db)):
     db.add(lead)
     db.flush()
 
-    # Initial qualification
     result = calculate_lead_score(payload.model_dump())
     lead.score = result.score
     lead.classification = result.classification
@@ -71,7 +68,7 @@ def list_leads(
 
 
 @router.get("/{lead_id}", response_model=LeadOut)
-def get_lead(lead_id: UUID, db: Session = Depends(get_db)):
+def get_lead(lead_id: str, db: Session = Depends(get_db)):
     lead = db.query(Lead).filter(Lead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Lead not found")
@@ -79,7 +76,7 @@ def get_lead(lead_id: UUID, db: Session = Depends(get_db)):
 
 
 @router.patch("/{lead_id}", response_model=LeadOut)
-def update_lead(lead_id: UUID, payload: LeadUpdate, db: Session = Depends(get_db)):
+def update_lead(lead_id: str, payload: LeadUpdate, db: Session = Depends(get_db)):
     lead = db.query(Lead).filter(Lead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Lead not found")
@@ -94,7 +91,7 @@ def update_lead(lead_id: UUID, payload: LeadUpdate, db: Session = Depends(get_db
 
 
 @router.post("/{lead_id}/qualify", response_model=LeadOut)
-def qualify_lead(lead_id: UUID, db: Session = Depends(get_db)):
+def qualify_lead(lead_id: str, db: Session = Depends(get_db)):
     lead = db.query(Lead).filter(Lead.id == lead_id).first()
     if not lead:
         raise HTTPException(status_code=404, detail="Lead not found")

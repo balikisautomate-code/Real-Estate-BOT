@@ -1,6 +1,5 @@
 from datetime import datetime
-from uuid import UUID
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 
@@ -47,7 +46,7 @@ class LeadUpdate(BaseModel):
 class LeadOut(LeadBase):
     model_config = ConfigDict(from_attributes=True)
 
-    id: UUID
+    id: str
     status: str
     classification: Optional[str] = None
     score: Optional[int] = None

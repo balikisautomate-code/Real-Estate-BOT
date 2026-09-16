@@ -1,4 +1,3 @@
-from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -19,7 +18,6 @@ def create_conversation(payload: ConversationCreate, db: Session = Depends(get_d
     lead_id = payload.lead_id
 
     if not lead_id:
-        # Create a new empty lead for this conversation
         lead = Lead(status="NEW", source="WEBSITE")
         db.add(lead)
         db.flush()
@@ -45,7 +43,7 @@ def create_conversation(payload: ConversationCreate, db: Session = Depends(get_d
 
 
 @router.get("/{conversation_id}", response_model=ConversationOut)
-def get_conversation(conversation_id: UUID, db: Session = Depends(get_db)):
+def get_conversation(conversation_id: str, db: Session = Depends(get_db)):
     conversation = db.query(Conversation).filter(Conversation.id == conversation_id).first()
     if not conversation:
         raise HTTPException(status_code=404, detail="Conversation not found")
@@ -54,7 +52,7 @@ def get_conversation(conversation_id: UUID, db: Session = Depends(get_db)):
 
 @router.get("/{conversation_id}/messages", response_model=MessageListResponse)
 def list_messages(
-    conversation_id: UUID,
+    conversation_id: str,
     page: int = 1,
     limit: int = 50,
     db: Session = Depends(get_db),
@@ -76,7 +74,7 @@ def list_messages(
 
 @router.post("/{conversation_id}/messages", response_model=MessageOut, status_code=201)
 async def create_message(
-    conversation_id: UUID,
+    conversation_id: str,
     payload: MessageCreate,
     db: Session = Depends(get_db),
 ):
@@ -94,7 +92,6 @@ async def create_message(
     db.commit()
     db.refresh(message)
 
-    # Trigger n8n for customer messages
     if payload.sender_type == "CUSTOMER":
         message.processing_status = "PROCESSING"
         db.commit()

@@ -9,7 +9,9 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     debug: bool = True
 
-    database_url: str = "postgresql://postgres:postgres@localhost:5432/real_estate_leads"
+    # MySQL (local development)
+    # Format: mysql+pymysql://USER:PASSWORD@HOST:PORT/DATABASE
+    database_url: str = "mysql+pymysql://root:password@localhost:3306/real_estate_leads"
 
     jwt_secret: str = "change-me-to-a-long-random-string"
     jwt_algorithm: str = "HS256"
