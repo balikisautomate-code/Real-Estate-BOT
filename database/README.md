@@ -1,30 +1,55 @@
-# Database
+# Database — MySQL
 
-**MySQL** is the system of record for local development and the current implementation.
+**MySQL** is the system of record for the Real Estate Lead Bot.
 
-> Docker / containerised databases will be used later for deployment. For now we use the MySQL instance already running on your machine.
+## Development (recommended)
 
-## Connection string
+Use the **MySQL already installed on your PC**.
 
-```text
-mysql+pymysql://USER:PASSWORD@localhost:3306/real_estate_leads
-```
-
-Example in `.env`:
-
-```env
-DATABASE_URL=mysql+pymysql://root:your_password@localhost:3306/real_estate_leads
-```
-
-## Create the database (once)
-
-In MySQL:
+1. Create the database:
 
 ```sql
 CREATE DATABASE real_estate_leads CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-## Tables (created by the app)
+2. Set the connection string in `.env`:
+
+```env
+DATABASE_URL=mysql+pymysql://root:YOUR_PASSWORD@localhost:3306/real_estate_leads
+```
+
+Replace `root` / `YOUR_PASSWORD` with your real MySQL user and password.
+
+3. Create tables from the backend folder:
+
+```bash
+cd backend
+python -c "
+from app.db.base import Base
+from app.db.session import engine
+from app.models import *
+Base.metadata.create_all(bind=engine)
+print('MySQL tables created successfully')
+"
+```
+
+## Optional: MySQL inside Docker
+
+If you prefer not to use the MySQL on your PC:
+
+```bash
+docker compose up -d mysql
+```
+
+Then point `.env` to:
+
+```env
+DATABASE_URL=mysql+pymysql://realestate:realestate@localhost:3307/real_estate_leads
+```
+
+(Port **3307** is mapped so it does not conflict with your local MySQL on 3306.)
+
+## Core tables
 
 - `leads`
 - `conversations`
@@ -32,22 +57,10 @@ CREATE DATABASE real_estate_leads CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_
 - `lead_scores`
 - `activities`
 
-## Create tables from Python
-
-```bash
-cd backend
-source .venv/bin/activate   # or .venv\Scripts\activate on Windows
-python -c "
-from app.db.base import Base
-from app.db.session import engine
-from app.models import *
-Base.metadata.create_all(bind=engine)
-print('Tables created successfully')
-"
-```
+(IDs are stored as `CHAR(36)` UUIDs for MySQL compatibility.)
 
 ## Notes
 
-- UUIDs are stored as `CHAR(36)` for MySQL compatibility.
-- JSON columns use MySQL `JSON` type.
-- Alembic migrations can be added later when the schema stabilises.
+- Driver: **PyMySQL** (`mysql+pymysql://...`)
+- Character set: `utf8mb4`
+- PostgreSQL is no longer used in this project.

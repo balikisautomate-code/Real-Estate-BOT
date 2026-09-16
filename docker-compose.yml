@@ -1,22 +1,30 @@
+# Development Docker Compose
+# Primary database for development: your local MySQL on the host.
+# The mysql service below is optional — use it only if you prefer DB inside Docker.
+
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: real-estate-leads-db
+  # Optional: MySQL in Docker (skip this if you use MySQL installed on your PC)
+  mysql:
+    image: mysql:8.0
+    container_name: real-estate-leads-mysql
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: real_estate_leads
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: real_estate_leads
+      MYSQL_USER: realestate
+      MYSQL_PASSWORD: realestate
     ports:
-      - "5432:5432"
+      - "3307:3306"   # 3307 on host to avoid clashing with your local MySQL on 3306
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
+  # Backend (optional in Docker — you can also run uvicorn on the host)
   backend:
     build:
       context: ./backend
@@ -26,14 +34,15 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/real_estate_leads
+      # When backend runs in Docker and MySQL is on the host, use host.docker.internal
+      # When using the mysql service above, use: mysql+pymysql://realestate:realestate@mysql:3306/real_estate_leads
+      DATABASE_URL: ${DATABASE_URL:-mysql+pymysql://root:your_password@host.docker.internal:3306/real_estate_leads}
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
-    depends_on:
-      postgres:
-        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   n8n:
@@ -51,21 +60,6 @@ services:
       - n8n_data:/home/node/.n8n
       - ./n8n/workflows:/home/node/.n8n/workflows
 
-  # Frontend is typically run with `npm run dev` during development.
-  # Uncomment below when you want it containerized.
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile
-  #   container_name: real-estate-leads-frontend
-  #   ports:
-  #     - "3000:3000"
-  #   volumes:
-  #     - ./frontend:/app
-  #     - /app/node_modules
-  #   depends_on:
-  #     - backend
-
 volumes:
-  postgres_data:
+  mysql_data:
   n8n_data:
