@@ -1,0 +1,154 @@
+.dashboard {
+  max-width: 1100px;
+}
+
+.dash-header {
+  margin-bottom: 1.75rem;
+}
+
+.dash-header h1 {
+  font-size: 1.6rem;
+  color: var(--gray-900);
+}
+
+.dash-header p {
+  color: var(--gray-500);
+  font-size: 0.95rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--orange-100);
+}
+
+.stat-card.hot {
+  background: linear-gradient(135deg, var(--orange-500), var(--orange-600));
+  color: white;
+  border: none;
+}
+
+.stat-card.warm {
+  background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500));
+  color: var(--gray-900);
+  border: none;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.85;
+  margin-bottom: 0.25rem;
+}
+
+.stat-card strong {
+  font-size: 1.75rem;
+}
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  background: white;
+  border: 1.5px solid var(--gray-200);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--gray-600);
+  transition: all 0.15s;
+}
+
+.filters button:hover {
+  border-color: var(--orange-300);
+  color: var(--orange-600);
+}
+
+.filters button.active {
+  background: var(--orange-500);
+  border-color: var(--orange-500);
+  color: white;
+}
+
+.leads-table-wrap {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--orange-100);
+  overflow: hidden;
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leads-table th,
+.leads-table td {
+  padding: 0.85rem 1.1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.leads-table th {
+  background: var(--orange-50);
+  color: var(--gray-600);
+  font-weight: 600;
+  border-bottom: 1px solid var(--orange-100);
+}
+
+.leads-table tr:not(:last-child) td {
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.leads-table tr:hover td {
+  background: var(--orange-50);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge.hot {
+  background: var(--orange-100);
+  color: var(--orange-700);
+}
+
+.badge.warm {
+  background: var(--yellow-100);
+  color: #a16207;
+}
+
+.badge.cold {
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.loading,
+.empty {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--gray-500);
+}
+
+.empty .hint {
+  font-size: 0.875rem;
+  margin-top: 0.35rem;
+}

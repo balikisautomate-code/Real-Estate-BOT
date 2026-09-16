@@ -1,5 +1,3 @@
-"""Application configuration using pydantic-settings."""
-
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -13,7 +11,7 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql://postgres:postgres@localhost:5432/real_estate_leads"
 
-    jwt_secret: str = "change-me"
+    jwt_secret: str = "change-me-to-a-long-random-string"
     jwt_algorithm: str = "HS256"
     jwt_access_token_expire_minutes: int = 60
 

@@ -9,9 +9,9 @@
 
 ## 1. Project Status
 
-**Overall Status:** 🟡 Planning / Documentation Complete → Scaffolding  
-**Current Phase:** Project Foundation  
-**MVP Status:** Not yet implemented
+**Overall Status:** 🟡 Implementation In Progress  
+**Current Phase:** Backend + Frontend MVP  
+**MVP Status:** Core code written — ready for local setup & n8n wiring
 
 ### Status Legend
 
@@ -26,23 +26,23 @@
 # 2. Development Roadmap
 
 ```text
-DOCUMENTATION
+DOCUMENTATION          🟢
      ↓
-PROJECT SETUP          ← current
+PROJECT SETUP          🟢
      ↓
-DATABASE
+DATABASE MODELS        🟢
      ↓
-BACKEND API
+BACKEND API            🟢 (core)
      ↓
-FRONTEND
+FRONTEND               🟢 (chat + dashboard shell)
      ↓
-N8N AUTOMATION
+N8N AUTOMATION         🟡 (you are testing)
      ↓
 AI PROCESSING
      ↓
-LEAD QUALIFICATION
+LEAD QUALIFICATION     🟢 (deterministic service)
      ↓
-SALES DASHBOARD
+SALES DASHBOARD        🟡
      ↓
 TESTING
      ↓
@@ -61,7 +61,7 @@ MVP COMPLETE
 - [x] Create initial branch structure (main)
 - [x] Create `.gitignore`
 - [x] Create `.env.example`
-- [x] Create README (already present)
+- [x] Create README
 - [x] Create documentation folders (`docs/`)
 - [x] Create frontend directory
 - [x] Create backend directory
@@ -83,18 +83,53 @@ MVP COMPLETE
 
 ---
 
-# 15. Current Priority
+# 5. Database
 
-## 🔥 Next Tasks
-
-1. [x] Create initial repository structure (scaffolding)
-2. [ ] Set up backend (FastAPI skeleton + health endpoint)
-3. [ ] Set up PostgreSQL + SQLAlchemy models
-4. [ ] Create first Alembic migration
-5. [ ] Implement FastAPI health endpoint
-6. [ ] Implement lead API
-7. [ ] Implement conversation/message API
+- [x] SQLAlchemy models (Lead, Conversation, Message, LeadScore, Activity)
+- [ ] Alembic migrations
+- [ ] Seed data
 
 ---
 
-*Full task list from the original TASK.md is preserved. This file continues to serve as the living task tracker.*
+# 6. FastAPI Backend
+
+- [x] FastAPI application + CORS
+- [x] Health endpoint (with DB check)
+- [x] Lead APIs (create, list, get, update, qualify)
+- [x] Conversation APIs (create, get)
+- [x] Message APIs (create, list)
+- [x] Deterministic qualification service
+- [x] n8n webhook trigger helper
+- [ ] Authentication / JWT
+- [ ] Follow-up APIs
+
+---
+
+# 7. React Frontend
+
+- [x] Vite + React + TypeScript setup
+- [x] Modern orange/yellow design system
+- [x] Customer chat interface
+- [x] Message list + input + typing indicator
+- [x] Sales dashboard shell (stats + lead table)
+- [x] API client service
+- [ ] Lead detail page
+- [ ] Follow-up management UI
+
+---
+
+# 15. Current Priority
+
+## 🔥 Next Tasks (for you on device)
+
+1. [x] Backend core implementation
+2. [x] Frontend chat + dashboard (orange/yellow)
+3. [ ] Start Postgres + run backend
+4. [ ] Create tables (SQLAlchemy create_all or Alembic)
+5. [ ] Start frontend (`npm run dev`)
+6. [ ] Wire n8n webhook `PRH-LEAD-PROCESS-MESSAGE`
+7. [ ] Test full message → n8n → response flow
+
+---
+
+*This file is the living task tracker. Keep it updated as work progresses.*
